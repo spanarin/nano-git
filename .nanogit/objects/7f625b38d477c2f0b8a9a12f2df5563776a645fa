@@ -1,0 +1,61 @@
+
+import os
+import hashlib
+import json
+import sys
+
+
+def hash_file(content: bytes) -> str:
+    return hashlib.sha1(content).hexdigest()
+
+def init():
+    # making nano-git metadata storage
+    # empty blob (file contents) storage
+    os.makedirs(".nanogit/objects", exist_ok=True)
+    # empty commits storage
+    with open(".nanogit/commits.json", "w") as f:
+        json.dump([], f)
+    # empty staging storage
+    with open(".nanogit/index.json", "w") as f:
+        json.dump({}, f)
+    print("Initialized empty nano Git repository.")
+
+def add(file_path):
+    with open(file_path, "rb") as f:
+        content = f.read()
+    h = hash_file(content)
+    # store blob for file content
+    with open(f".nanogit/objects/{h}", "wb") as f:
+        f.write(content)
+    # stage it
+    index = json.load(open(".nanogit/index.json"))
+    index[file_path] = h
+    json.dump(index, open(".nanogit/index.json", "w"))
+    print(f"Added {file_path} to staging with hash ({h[:6]}).")
+
+
+if __name__ == "__main__":
+    print("nano-git@v1.0")
+
+    if len(sys.argv) < 2:
+        print('Usage: nano_git.py <command>')
+    else:
+        cmd = sys.argv[1]
+        print(f"Executing command: {cmd}")
+        if cmd == "init":
+            init()
+        elif "add":
+            if len(sys.argv) >= 3:
+                file_path = sys.argv[2]
+                add(file_path)
+            else:
+                print('Usage: nano_git.py add <file_path>')
+        elif "commit":
+                print(cmd)
+        elif "log":
+            print(cmd)
+        elif "checkout":
+            print(cmd)
+        else:
+            print(f"Command '{cmd}' is not supported")
+

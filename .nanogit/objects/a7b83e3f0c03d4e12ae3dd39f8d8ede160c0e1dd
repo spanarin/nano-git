@@ -1,0 +1,9 @@
+# nano-git
+
+1-hour Git inner essentials in Python.
+
+## Tack stack
+
+- hashlib (SHA-1 hashes)
+- sys (args handling)
+- os (file/dirs handling)
