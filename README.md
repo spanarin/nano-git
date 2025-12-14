@@ -1,6 +1,6 @@
 # nano-git - Git finally makes sense
 
-1-hour implementation of Git inner essentials in Python. 
+1-hour implementation of Git inner essentials in Python. Watch [YouTube video](https://youtu.be/p5CTL2s2Xno)
 
 Mental model: 
 
